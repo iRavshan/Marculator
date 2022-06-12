@@ -13,5 +13,7 @@ namespace Marculator.Repositories
         Task Update(Product product);
         Task<IEnumerable<Product>> GetAll();
         Task<Product> GetById(Guid Id);
+        Task<Product> GetByName(string name);
+        Task<IEnumerable<Product>> GetByShortName(string shortname);
     }
 }

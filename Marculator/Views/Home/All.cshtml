@@ -1,0 +1,42 @@
+﻿@model AllViewModel
+@{
+    int tr = 0;
+    ViewData["Title"] = "Barcha muzqaymoqlar";
+}
+
+<form asp-controller="home" asp-action="all" method="post">
+    <input type="text" asp-for="SearchText" class="form-control" placeholder="Mahsulot nomini kiriting">
+    <button class="btn btn-primary w-100 mb-5 mt-3" type="submit"><i class="fas fa-search mr-2"></i>Qidirish</button>
+</form>
+@if (Model.AllProduct.Count() == 0)
+{
+    <p>"@Model.SearchText" qidiruvi bo'yicha hech narsa topilmadi :(</p>
+}
+
+@if (Model.AllProduct.Count() != 0)
+{
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nomi</th>
+                <th scope="col">Narxi</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.AllProduct)
+            {
+                <tr>
+                    <th scope="row">@tr</th>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td><a asp-controller="home" asp-action="details" asp-route-Id="@product.Id"><i class="fas fa-pen"></i></a></td>
+                </tr>
+                @(tr++);
+            }
+        </tbody>
+    </table>
+}
+
+

@@ -1,0 +1,15 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Yangi muzqaymoq qo'shish";
+}
+
+<form asp-controller="home" asp-action="create" method="post">
+    <h5 class="text-center mb-3">Yangi muzqaymoq</h5>
+    <label asp-for="Name"></label>
+    <input type="text" asp-for="Name" class="form-control mb-4" required placeholder="Nomini kiriting">
+    <label asp-for="Price"></label>
+    <input type="number" asp-for="Price" class="form-control" required placeholder="Narxini kiriting" min="0">
+    <button type="submit" class="btn btn-primary w-100 mt-3">Saqlash</button>
+</form>
+
+

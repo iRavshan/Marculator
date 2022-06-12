@@ -1,0 +1,35 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Poppins', sans-serif;;
+}
+
+.wrapper{
+    padding: 20px;
+    text-align: center;
+    margin: 60px auto;
+    width: 320px;
+    background-color: #f5f5f5;
+    border-radius: 25px;
+}
+
+.wrapper .logo{
+    width: 200px;
+    margin-bottom: 30px;
+}
+
+.wrapper form{
+    text-align: left;
+}
+
+.wrapper .oneLine .form-control{
+    display: inline;
+}
+
+.wrapper form .oneLine .forName{
+    width: 68%;
+}
+
+.wrapper form .oneLine .forCount{
+    width: 30%;
+}

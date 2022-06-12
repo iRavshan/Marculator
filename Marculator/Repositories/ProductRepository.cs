@@ -43,6 +43,19 @@ namespace Marculator.Repositories
             return await dbContext.Products.FindAsync(Id);
         }
 
+        public async Task<Product> GetByName(string name)
+        {
+            IEnumerable<Product> allProducts = await dbContext.Products.ToListAsync();
+
+            return allProducts.Where(p => p.Name.Equals(name)).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Product>> GetByShortName(string shortname)
+        {
+            return (await dbContext.Products.ToListAsync())
+                    .Where(w => w.Name.Contains(shortname)).ToList();
+        }
+
         public async Task Update(Product product)
         {
             throw new NotImplementedException();
