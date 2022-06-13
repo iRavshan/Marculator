@@ -1,7 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "MOZ";
 }
 
-<a href="order.html" class="btn btn-primary w-100 mb-2">Buyurtma</a> <br>
-<a href="all.html" class="btn btn-primary w-100 mb-2">Muzqaymoqlar</a> <br>
-<a href="addproduct.html" class="btn btn-primary w-100 mb-2">Yangi muzqaymoq</a><br>
+<a asp-controller="home" asp-action="add" class="btn btn-primary w-100 mb-2">Buyurtma</a> <br>
+<a asp-controller="home" asp-action="all" class="btn btn-primary w-100 mb-2">Muzqaymoqlar</a> <br>
+<a asp-controller="home" asp-action="create" class="btn btn-primary w-100 mb-2">Yangi muzqaymoq</a><br>

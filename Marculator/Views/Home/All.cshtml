@@ -8,6 +8,7 @@
     <input type="text" asp-for="SearchText" class="form-control" placeholder="Mahsulot nomini kiriting">
     <button class="btn btn-primary w-100 mb-5 mt-3" type="submit"><i class="fas fa-search mr-2"></i>Qidirish</button>
 </form>
+
 @if (Model.AllProduct.Count() == 0)
 {
     <p>"@Model.SearchText" qidiruvi bo'yicha hech narsa topilmadi :(</p>

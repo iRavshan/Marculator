@@ -58,7 +58,11 @@ namespace Marculator.Repositories
 
         public async Task Update(Product product)
         {
-            throw new NotImplementedException();
+            var pro =  dbContext.Products.Attach(product);
+
+            pro.State = EntityState.Modified;
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -20,11 +20,11 @@ namespace Marculator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (productRepo.GetByName(product.Name) is null)
             {
-                productRepo.Create(product);
+                await productRepo.Create(product);
 
                 return RedirectToAction("all");
             }
@@ -78,7 +78,6 @@ namespace Marculator.Controllers
             this.productRepo = productRepo;
         }
 
-
         public IActionResult Add()
         {
             return View();
@@ -87,8 +86,35 @@ namespace Marculator.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid Id)
         {
+            Product product = await productRepo.GetById(Id);
+            
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Product product)
+        {
+            Product eProduct = await productRepo.GetById(product.Id);
+
+            if(productRepo.GetByName(product.Name) is null)
+            {
+                eProduct.Name = product.Name;
+
+                eProduct.Price = product.Price;
+
+                await productRepo.Update(eProduct);
+
+                return RedirectToAction("all");
+            }
+
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            await productRepo.Delete(Id);
+            return RedirectToAction("all");
+        }
      }
 }
