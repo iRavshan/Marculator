@@ -47,7 +47,9 @@ namespace Marculator.Repositories
         {
             IEnumerable<Product> allProducts = await dbContext.Products.ToListAsync();
 
-            return allProducts.Where(p => p.Name.Equals(name)).FirstOrDefault();
+            Product product = allProducts.Where(p => p.Name.Equals(name)).FirstOrDefault();
+
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetByShortName(string shortname)

@@ -33,3 +33,7 @@
 .wrapper form .oneLine .forCount{
     width: 30%;
 }
+
+.add, .remove{
+    width: 46%;
+}

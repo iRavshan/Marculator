@@ -22,14 +22,23 @@ namespace Marculator.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
-            if (productRepo.GetByName(product.Name) is null)
+            Product eProduct = new Product
             {
-                await productRepo.Create(product);
+                Id = Guid.NewGuid(),
+                Name = product.Name,
+                Price = product.Price
+            };
+
+            Product res = await productRepo.GetByName(eProduct.Name);
+
+            if (res is null)
+            {  
+                await productRepo.Create(eProduct);
 
                 return RedirectToAction("all");
             }
 
-            else return View();
+            return View();
         }
 
         [HttpGet]

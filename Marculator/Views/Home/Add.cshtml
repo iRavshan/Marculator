@@ -1,12 +1,16 @@
-﻿@{
+﻿@model IEnumerable<Thing>
+@{
     ViewData["Title"] = "Chek yaratish";
 }
 
-<form action="">
-    <div class="oneLine">
-        <input type="text" class="form-control forName">
-        <input type="number" class="form-control forCount">
+<form asp-controller="home" asp-action="add" method="post">
+    <div id="parent-div">
+        <div class="oneLine mb-3">
+            <input type="text" class="form-control forName" required>
+            <input type="text" class="form-control forCount" required>
+        </div>
     </div>
-    <button class="btn btn-success w-100 mt-3">Yana</button>
-    <button class="btn btn-primary w-100 mt-3" type="submit">Chekni chiqarish</button>
+    <input type="button" value="+" class="add btn btn-success mr-3 mt-3" />
+    <input type="button" value="-" class="remove btn btn-info mt-3" onclick="removeItem()" />
+    <button type="submit" class="btn btn-primary w-100 mt-4"><i class="fas fa-print mr-2"></i>Chekni chiqarish</button>
 </form>

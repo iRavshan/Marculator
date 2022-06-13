@@ -6,10 +6,10 @@
 <form action="" method="post">
     <h5 class="text-center mb-3">Mahsulotni tahrirlash</h5>
     <input  hidden value="@Model.Id" asp-for="Id"/>
-    <label>Nomi</label>
-    <input type="text" class="form-control mb-4" required placeholder="Nomini kiriting">
-    <label>Narxi</label>
-    <input type="number" class="form-control" required placeholder="Narxini kiriting" min="0">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" type="text" class="form-control mb-4" required placeholder="Nomini kiriting">
+    <label asp-for="Price"></label>
+    <input asp-for="Price" type="number" class="form-control" required placeholder="Narxini kiriting" min="0">
     <button type="submit" class="btn btn-primary w-100 mt-3">Saqlash</button>
 </form>
 <form asp-controller="home" asp-action="delete" asp-route-Id="@Model.Id" method="post">

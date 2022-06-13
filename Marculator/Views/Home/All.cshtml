@@ -1,6 +1,5 @@
 ﻿@model AllViewModel
 @{
-    int tr = 0;
     ViewData["Title"] = "Barcha muzqaymoqlar";
 }
 
@@ -26,15 +25,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model.AllProduct)
+            @for(int i = 0; i < Model.AllProduct.Count(); i++)
             {
                 <tr>
-                    <th scope="row">@tr</th>
-                    <td>@product.Name</td>
-                    <td>@product.Price</td>
-                    <td><a asp-controller="home" asp-action="details" asp-route-Id="@product.Id"><i class="fas fa-pen"></i></a></td>
+                    <th scope="row">@(i+1)</th>
+                    <td>@Model.AllProduct.ToArray()[i].Name</td>
+                    <td>@Model.AllProduct.ToArray()[i].Price</td>
+                    <td><a asp-controller="home" asp-action="details" asp-route-Id="@Model.AllProduct.ToArray()[i].Id"><i class="fas fa-pen"></i></a></td>
                 </tr>
-                @(tr++);
             }
         </tbody>
     </table>
