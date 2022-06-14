@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Thing>
+﻿@model AddViewModel
 @{
     ViewData["Title"] = "Chek yaratish";
 }
@@ -6,7 +6,12 @@
 <form asp-controller="home" asp-action="add" method="post">
     <div id="parent-div">
         <div class="oneLine mb-3">
-            <input type="text" class="form-control forName" required>
+            <select class="form-select forName" id="sel1" name="sellist1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
             <input type="text" class="form-control forCount" required>
         </div>
     </div>

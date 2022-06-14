@@ -87,7 +87,14 @@ namespace Marculator.Controllers
             this.productRepo = productRepo;
         }
 
+        [HttpGet]
         public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddViewModel model)
         {
             return View();
         }
@@ -96,20 +103,25 @@ namespace Marculator.Controllers
         public async Task<IActionResult> Details(Guid Id)
         {
             Product product = await productRepo.GetById(Id);
+
+            DetailsViewModel model = new DetailsViewModel
+            {
+                Product = product
+            };
             
-            return View(product);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Product product)
+        public async Task<IActionResult> Details(DetailsViewModel model)
         {
-            Product eProduct = await productRepo.GetById(product.Id);
+            Product eProduct = await productRepo.GetById(model.Product.Id);
 
-            if(productRepo.GetByName(product.Name) is null)
+            if((await productRepo.GetByName(model.Product.Name)) is null)
             {
-                eProduct.Name = product.Name;
+                eProduct.Name = model.Product.Name;
 
-                eProduct.Price = product.Price;
+                eProduct.Price = model.Product.Price;
 
                 await productRepo.Update(eProduct);
 

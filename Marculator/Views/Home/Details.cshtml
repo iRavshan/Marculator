@@ -1,17 +1,17 @@
-﻿@model Product
+﻿@model DetailsViewModel
 @{
     ViewData["Title"] = "Tahrirlash";
 }
 
-<form action="" method="post">
+<form asp-controller="home" asp-action="details" method="post">
     <h5 class="text-center mb-3">Mahsulotni tahrirlash</h5>
-    <input  hidden value="@Model.Id" asp-for="Id"/>
-    <label asp-for="Name"></label>
-    <input asp-for="Name" type="text" class="form-control mb-4" required placeholder="Nomini kiriting">
-    <label asp-for="Price"></label>
-    <input asp-for="Price" type="number" class="form-control" required placeholder="Narxini kiriting" min="0">
+    <input hidden value="@Model.Product.Id" asp-for="Product.Id"/>
+    <label asp-for="Product.Name"></label>
+    <input asp-for="Product.Name" type="text" class="form-control mb-4" required placeholder="Nomini kiriting">
+    <label asp-for="Product.Price"></label>
+    <input asp-for="Product.Price" type="number" class="form-control" required placeholder="Narxini kiriting" min="0">
     <button type="submit" class="btn btn-primary w-100 mt-3">Saqlash</button>
 </form>
-<form asp-controller="home" asp-action="delete" asp-route-Id="@Model.Id" method="post">
+<form asp-controller="home" asp-action="delete" asp-route-Id="@Model.Product.Id" method="post">
     <button class="btn btn-secondary w-100 mt-3"> <i class="fas fa-trash mr-2"></i> O'chirish</button>
 </form>

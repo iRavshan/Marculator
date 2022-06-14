@@ -35,7 +35,7 @@ namespace Marculator.Repositories
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-           return await dbContext.Products.ToListAsync();
+            return (await dbContext.Products.ToListAsync()).OrderBy(w => w.Name);
         }
 
         public async Task<Product> GetById(Guid Id)
