@@ -88,9 +88,21 @@ namespace Marculator.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View();
+            AddViewModel model = new AddViewModel
+            {
+                Things = new List<Thing>()
+            };
+
+            IEnumerable<Product> products = await productRepo.GetAll();
+
+            foreach(Product item in products)
+            {
+                model.Things.Add(new Thing { Name = item.Name, Count = 0 });
+            }
+
+            return View(model);
         }
 
         [HttpPost]

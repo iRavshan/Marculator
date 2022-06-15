@@ -27,6 +27,7 @@
 }
 
 .wrapper form .oneLine .forName{
+    display: inline;
     width: 68%;
 }
 
@@ -35,5 +36,6 @@
 }
 
 .add, .remove{
+    margin-right: 9px;
     width: 46%;
 }
