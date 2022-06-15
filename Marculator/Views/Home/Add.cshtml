@@ -1,22 +1,14 @@
 ﻿@model AddViewModel
 @{
-    int tr = 0;
     ViewData["Title"] = "Chek yaratish";
 }
 
 <form asp-controller="home" asp-action="add" method="post">
     <div id="parent-div">
         <div class="oneLine mb-3">
-            <select class="form-select forName" asp-for="Things[tr].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))">
+            <select class="form-select forName" asp-for="Things[0].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))">
             </select>
-            <input type="number" class="form-control forCount" required asp-for="Things[tr].Count">
-            @(tr++;)
-        </div>
-        <div class="oneLine mb-3">
-            <select class="form-select forName" asp-for="Things[tr].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))">
-            </select>
-            <input type="number" class="form-control forCount" required asp-for="Things[tr].Count">
-            @(tr++;)
+            <input type="number" class="form-control forCount" required asp-for="Things[0].Count">
         </div>
     </div>
     <input type="button" value="+" class="add btn btn-success mr-3 mt-3" />
