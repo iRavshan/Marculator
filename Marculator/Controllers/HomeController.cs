@@ -129,21 +129,27 @@ namespace Marculator.Controllers
         {
             Product eProduct = await productRepo.GetById(model.Product.Id);
 
-            if((await productRepo.GetByName(model.Product.Name)) is null)
+            if(eProduct.Name == model.Product.Name)
             {
-                eProduct.Name = model.Product.Name;
-
                 eProduct.Price = model.Product.Price;
-
                 await productRepo.Update(eProduct);
-
                 return RedirectToAction("all");
             }
 
-            return View();
+            else
+            {
+                if ((await productRepo.GetByName(model.Product.Name)) is null)
+                {
+                    eProduct.Name = model.Product.Name;
+                    eProduct.Price = model.Product.Price;
+                    await productRepo.Update(eProduct);
+                    return RedirectToAction("all");
+                }
+
+                return View();
+            }
         }
 
-        [HttpPost]
         public async Task<IActionResult> Delete(Guid Id)
         {
             await productRepo.Delete(Id);

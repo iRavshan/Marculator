@@ -47,7 +47,7 @@ namespace Marculator.Repositories
         {
             IEnumerable<Product> allProducts = await dbContext.Products.ToListAsync();
 
-            Product product = allProducts.Where(p => p.Name.Equals(name)).FirstOrDefault();
+            Product product = allProducts.Where(p => p.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
 
             return product;
         }
@@ -55,7 +55,7 @@ namespace Marculator.Repositories
         public async Task<IEnumerable<Product>> GetByShortName(string shortname)
         {
             return (await dbContext.Products.ToListAsync())
-                    .Where(w => w.Name.Contains(shortname)).ToList();
+                    .Where(w => w.Name.ToLower().Contains(shortname.ToLower())).ToList();
         }
 
         public async Task Update(Product product)

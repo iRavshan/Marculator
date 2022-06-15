@@ -1,6 +1,7 @@
+var x = 0;
 $(document).ready(function () {
     $('.add').on('click', function (event) {
-        var html = '<div class="oneLine mb-3"><select class="form-select forName" asp-for="Things[tr].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))"> </select > <input type="number" class="form-control forCount" required asp-for="Things[tr].Count"> @(tr++;)</div>';
+        var html = '<div class="oneLine mb-3"><select class="form-select forName" asp-for="Things[' + x++ + '].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))"> </select > <input type="number" class="form-control forCount" required asp-for="Things[' + x++ +'].Count"></div>';
         $("#parent-div").append(html);
     });
 }); 

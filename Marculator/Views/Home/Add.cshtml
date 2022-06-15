@@ -11,7 +11,8 @@
             <input type="number" class="form-control forCount" required asp-for="Things[0].Count">
         </div>
     </div>
+
+    <input type="button" value="-" class="remove btn btn-secondary mt-3" onclick="removeItem()" />
     <input type="button" value="+" class="add btn btn-success mr-3 mt-3" />
-    <input type="button" value="-" class="remove btn btn-info mt-3" onclick="removeItem()" />
-    <button type="submit" class="btn btn-primary w-100 mt-4"><i class="fas fa-print mr-2"></i>Chekni chiqarish</button>
+    <button type="submit" class="btn btn-primary w-100 mt-4"><i class="fas fa-print mr-2"></i> Chekni chiqarish</button>
 </form>
