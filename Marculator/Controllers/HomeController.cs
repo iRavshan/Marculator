@@ -1,11 +1,15 @@
-﻿using Marculator.Models;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Marculator.Models;
 using Marculator.Repositories;
 using Marculator.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -76,41 +80,6 @@ namespace Marculator.Controllers
             return View();
         }
 
-        private readonly ILogger<HomeController> _logger;
-
-        private readonly IProductRepository productRepo;
-
-        public HomeController(ILogger<HomeController> logger,
-                              IProductRepository productRepo)
-        {
-            _logger = logger;
-            this.productRepo = productRepo;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Add()
-        {
-            AddViewModel model = new AddViewModel
-            {
-                Things = new List<Thing>()
-            };
-
-            IEnumerable<Product> products = await productRepo.GetAll();
-
-            foreach(Product item in products)
-            {
-                model.Things.Add(new Thing { Name = item.Name, Count = 0 });
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(AddViewModel model)
-        {
-            return View();
-        }
-
         [HttpGet]
         public async Task<IActionResult> Details(Guid Id)
         {
@@ -120,7 +89,7 @@ namespace Marculator.Controllers
             {
                 Product = product
             };
-            
+
             return View(model);
         }
 
@@ -129,7 +98,7 @@ namespace Marculator.Controllers
         {
             Product eProduct = await productRepo.GetById(model.Product.Id);
 
-            if(eProduct.Name == model.Product.Name)
+            if (eProduct.Name == model.Product.Name)
             {
                 eProduct.Price = model.Product.Price;
                 await productRepo.Update(eProduct);
@@ -154,6 +123,137 @@ namespace Marculator.Controllers
         {
             await productRepo.Delete(Id);
             return RedirectToAction("all");
+        }
+
+        private readonly ILogger<HomeController> _logger;
+
+        private readonly IProductRepository productRepo;
+        private readonly IWebHostEnvironment webHost;
+
+        public HomeController(ILogger<HomeController> logger,
+                              IProductRepository productRepo,
+                              IWebHostEnvironment webHost)
+        {
+            _logger = logger;
+            this.productRepo = productRepo;
+            this.webHost = webHost;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            AddViewModel model = new AddViewModel
+            {
+                Thing = new List<Thing>()
+            };
+
+            IEnumerable<Product> allProducts = await productRepo.GetAll();
+
+            foreach(Product item in allProducts)
+            {
+                model.Thing.Add(new Thing { Name = item.Name, Count = 0 });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<FileResult> Add(AddViewModel model)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Document doc = new Document(PageSize.A4, 60, 60, 30, 30);
+                PdfWriter writer = PdfWriter.GetInstance(doc, ms);
+                PdfPTable table = new PdfPTable(5);
+                int sum = 0;
+                doc.Open();
+
+                var logo = Image.GetInstance("wwwroot/img/Moz-Logo.png");
+                logo.Alignment = Element.ALIGN_CENTER;
+                doc.Add(logo);
+
+                PdfPCell trCell = new PdfPCell(new Phrase("#", new Font(Font.FontFamily.HELVETICA, 10)));
+                trCell.BackgroundColor = BaseColor.BLUE;
+                trCell.BorderWidthLeft = 0f;
+                trCell.BorderWidthRight = 0;
+                trCell.BorderWidthTop = 0;
+                trCell.BorderWidthBottom = 5f;
+                trCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                trCell.VerticalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(trCell);
+
+                PdfPCell nameCell = new PdfPCell(new Phrase("MAHSULOT NOMI", new Font(Font.FontFamily.HELVETICA, 10)));
+                nameCell.BackgroundColor = BaseColor.BLUE;
+                nameCell.BorderWidthLeft = 0f;
+                nameCell.BorderWidthRight = 0;
+                nameCell.BorderWidthTop = 0;
+                nameCell.BorderWidthBottom = 5f;
+                nameCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                nameCell.VerticalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(nameCell);
+
+                PdfPCell priceCell = new PdfPCell(new Phrase("NARXI", new Font(Font.FontFamily.HELVETICA, 10)));
+                priceCell.BackgroundColor = BaseColor.BLUE;
+                priceCell.BorderWidthLeft = 0f;
+                priceCell.BorderWidthRight = 0;
+                priceCell.BorderWidthTop = 0;
+                priceCell.BorderWidthBottom = 5f;
+                priceCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                priceCell.VerticalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(priceCell);
+
+                PdfPCell countCell = new PdfPCell(new Phrase("SONI", new Font(Font.FontFamily.HELVETICA, 10)));
+                countCell.BackgroundColor = BaseColor.BLUE;
+                countCell.BorderWidthLeft = 0f;
+                countCell.BorderWidthRight = 0;
+                countCell.BorderWidthTop = 0;
+                countCell.BorderWidthBottom = 5f;
+                countCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                countCell.VerticalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(countCell);
+
+                PdfPCell umumCell = new PdfPCell(new Phrase("QIYMATI", new Font(Font.FontFamily.HELVETICA, 10)));
+                umumCell.BackgroundColor = BaseColor.BLUE;
+                umumCell.BorderWidthLeft = 0f;
+                umumCell.BorderWidthRight = 0;
+                umumCell.BorderWidthTop = 0;
+                umumCell.BorderWidthBottom = 5f;
+                umumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                umumCell.VerticalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(umumCell);
+
+                int count = 1;
+                for (int i = 0; i < model.Thing.Count; i++)
+                {
+                    if(model.Thing[i].Count != 0)
+                    {
+                        Product product = await productRepo.GetByName(model.Thing[i].Name);
+
+                        table.AddCell(new Phrase(count.ToString()));
+                        table.AddCell(new Phrase(product.Name));
+                        table.AddCell(new Phrase(product.Price.ToString()));
+                        table.AddCell(new Phrase(model.Thing[i].Count.ToString()));
+                        table.AddCell(new Phrase((model.Thing[i].Count * product.Price).ToString()));
+
+                        sum += model.Thing[i].Count * product.Price;
+                        count++;
+                    }
+                }
+
+                doc.Add(table);
+
+                Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
+                doc.Add(dateTime);
+
+                Paragraph p = new Paragraph("Jami summa: " + sum.ToString() + " UZS", new Font(Font.FontFamily.HELVETICA, Font.BOLD));
+                doc.Add(p);
+
+                doc.Close();
+                writer.Close();
+
+                var constant = ms.ToArray();
+                return File(constant, "application/vnd", "Invoice.pdf");
+            }
         }
      }
 }

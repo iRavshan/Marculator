@@ -3,16 +3,20 @@
     ViewData["Title"] = "Chek yaratish";
 }
 
-<form asp-controller="home" asp-action="add" method="post">
-    <div id="parent-div">
-        <div class="oneLine mb-3">
-            <select class="form-select forName" asp-for="Things[0].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))">
-            </select>
-            <input type="number" class="form-control forCount" required asp-for="Things[0].Count">
-        </div>
-    </div>
-
-    <input type="button" value="-" class="remove btn btn-secondary mt-3" onclick="removeItem()" />
-    <input type="button" value="+" class="add btn btn-success mr-3 mt-3" />
-    <button type="submit" class="btn btn-primary w-100 mt-4"><i class="fas fa-print mr-2"></i> Chekni chiqarish</button>
+<form asp-controller="home" asp-action="search" method="post">
+    <input class="form-control w-100 mb-2" type="search" placeholder="Mahsulot nomini kiriting"/>
+    <button type="submit" class="btn btn-primary mt-2 mb-4 w-100">Qidirish</button>
 </form>
+
+<form asp-controller="home" asp-action="add" method="post">
+    @for (int i = 0; i < Model.Thing.Count; i++)
+    {
+        <div class="oneLine mb-2">
+            <input asp-for="Thing[i].Name" class="form-control forName" readonly="readonly">
+            <input asp-for="Thing[i].Count" class="form-control forCount" required/>
+        </div>
+    }
+    <button type="submit" class="btn btn-success mt-2 mb-3 w-100">Yuborish</button>
+</form>
+
+
