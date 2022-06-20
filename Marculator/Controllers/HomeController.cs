@@ -162,10 +162,9 @@ namespace Marculator.Controllers
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                Document doc = new Document(PageSize.A4, 60, 60, 30, 30);
+                Document doc = new Document(PageSize.A4, 60, 25, 30, 30);
                 PdfWriter writer = PdfWriter.GetInstance(doc, ms);
                 PdfPTable table = new PdfPTable(5);
-                int sum = 0;
                 doc.Open();
 
                 var logo = Image.GetInstance("wwwroot/img/Moz-Logo.png");
@@ -173,67 +172,115 @@ namespace Marculator.Controllers
                 doc.Add(logo);
 
                 PdfPCell trCell = new PdfPCell(new Phrase("#", new Font(Font.FontFamily.HELVETICA, 10)));
-                trCell.BackgroundColor = BaseColor.BLUE;
+                trCell.MinimumHeight = 20;
                 trCell.BorderWidthLeft = 0f;
                 trCell.BorderWidthRight = 0;
                 trCell.BorderWidthTop = 0;
-                trCell.BorderWidthBottom = 5f;
+                trCell.BorderWidthBottom = 1f;
                 trCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 trCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(trCell);
 
-                PdfPCell nameCell = new PdfPCell(new Phrase("MAHSULOT NOMI", new Font(Font.FontFamily.HELVETICA, 10)));
-                nameCell.BackgroundColor = BaseColor.BLUE;
-                nameCell.BorderWidthLeft = 0f;
+                PdfPCell nameCell = new PdfPCell(new Phrase("NOMI", new Font(Font.FontFamily.HELVETICA, 10)));
+                nameCell.MinimumHeight = 20;
+                nameCell.BorderWidthLeft = 0;
                 nameCell.BorderWidthRight = 0;
                 nameCell.BorderWidthTop = 0;
-                nameCell.BorderWidthBottom = 5f;
-                nameCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                nameCell.BorderWidthBottom = 1f;
+                nameCell.HorizontalAlignment = Element.ALIGN_LEFT;
                 nameCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(nameCell);
 
                 PdfPCell priceCell = new PdfPCell(new Phrase("NARXI", new Font(Font.FontFamily.HELVETICA, 10)));
-                priceCell.BackgroundColor = BaseColor.BLUE;
+                priceCell.MinimumHeight = 20;
                 priceCell.BorderWidthLeft = 0f;
                 priceCell.BorderWidthRight = 0;
                 priceCell.BorderWidthTop = 0;
-                priceCell.BorderWidthBottom = 5f;
+                priceCell.BorderWidthBottom = 1f;
                 priceCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 priceCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(priceCell);
 
                 PdfPCell countCell = new PdfPCell(new Phrase("SONI", new Font(Font.FontFamily.HELVETICA, 10)));
-                countCell.BackgroundColor = BaseColor.BLUE;
+                countCell.MinimumHeight = 20;
                 countCell.BorderWidthLeft = 0f;
                 countCell.BorderWidthRight = 0;
                 countCell.BorderWidthTop = 0;
-                countCell.BorderWidthBottom = 5f;
-                countCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                countCell.BorderWidthBottom = 1f;
+                countCell.HorizontalAlignment = Element.ALIGN_LEFT;
                 countCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(countCell);
 
                 PdfPCell umumCell = new PdfPCell(new Phrase("QIYMATI", new Font(Font.FontFamily.HELVETICA, 10)));
-                umumCell.BackgroundColor = BaseColor.BLUE;
+                umumCell.MinimumHeight = 25;
                 umumCell.BorderWidthLeft = 0f;
                 umumCell.BorderWidthRight = 0;
                 umumCell.BorderWidthTop = 0;
-                umumCell.BorderWidthBottom = 5f;
-                umumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                umumCell.BorderWidthBottom = 1f;
+                umumCell.HorizontalAlignment = Element.ALIGN_LEFT;
                 umumCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(umumCell);
 
                 int count = 1;
+                int sum = 0;
+
                 for (int i = 0; i < model.Thing.Count; i++)
                 {
                     if(model.Thing[i].Count != 0)
                     {
                         Product product = await productRepo.GetByName(model.Thing[i].Name);
 
-                        table.AddCell(new Phrase(count.ToString()));
-                        table.AddCell(new Phrase(product.Name));
-                        table.AddCell(new Phrase(product.Price.ToString()));
-                        table.AddCell(new Phrase(model.Thing[i].Count.ToString()));
-                        table.AddCell(new Phrase((model.Thing[i].Count * product.Price).ToString()));
+                        PdfPCell _trCell = new PdfPCell(new Phrase(count.ToString()));
+                        _trCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        _trCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _trCell.BorderWidthLeft = 0;
+                        _trCell.BorderWidthRight = 0;
+                        _trCell.BorderWidthTop = 0;
+                        _trCell.BorderWidthBottom = 1f;
+                        _trCell.MinimumHeight = 18;
+
+                        PdfPCell _nameCell = new PdfPCell(new Phrase(product.Name));
+                        _nameCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        _nameCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _nameCell.BorderWidthLeft = 0;
+                        _nameCell.BorderWidthRight = 0;
+                        _nameCell.BorderWidthTop = 0;
+                        _nameCell.BorderWidthBottom = 1f;
+                        _nameCell.MinimumHeight = 18;
+
+                        PdfPCell _priceCell = new PdfPCell(new Phrase(CustomSumm(product.Price)));
+                        _priceCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        _priceCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _priceCell.PaddingLeft = 10;
+                        _priceCell.BorderWidthLeft = 0;
+                        _priceCell.BorderWidthRight = 0;
+                        _priceCell.BorderWidthTop = 0;
+                        _priceCell.BorderWidthBottom = 1f;
+                        _priceCell.MinimumHeight = 18;
+
+                        PdfPCell _countCell = new PdfPCell(new Phrase(model.Thing[i].Count.ToString()));
+                        _countCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        _countCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _countCell.BorderWidthLeft = 0;
+                        _countCell.BorderWidthRight = 0;
+                        _countCell.BorderWidthTop = 0;
+                        _countCell.BorderWidthBottom = 1f;
+                        _countCell.MinimumHeight = 18;
+
+                        PdfPCell _umumCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Count * product.Price)));
+                        _umumCell.HorizontalAlignment = Element.ALIGN_LEFT;
+                        _umumCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _umumCell.BorderWidthLeft = 0;
+                        _umumCell.BorderWidthRight = 0;
+                        _umumCell.BorderWidthTop = 0;
+                        _umumCell.BorderWidthBottom = 1f;
+                        _umumCell.MinimumHeight = 18;
+
+                        table.AddCell(_trCell);
+                        table.AddCell(_nameCell);
+                        table.AddCell(_priceCell);
+                        table.AddCell(_countCell);
+                        table.AddCell(_umumCell);
 
                         sum += model.Thing[i].Count * product.Price;
                         count++;
@@ -245,7 +292,7 @@ namespace Marculator.Controllers
                 Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
                 doc.Add(dateTime);
 
-                Paragraph p = new Paragraph("Jami summa: " + sum.ToString() + " UZS", new Font(Font.FontFamily.HELVETICA, Font.BOLD));
+                Paragraph p = new Paragraph("Jami summa: " + CustomSumm(sum) + " UZS");
                 doc.Add(p);
 
                 doc.Close();
@@ -254,6 +301,24 @@ namespace Marculator.Controllers
                 var constant = ms.ToArray();
                 return File(constant, "application/vnd", "Invoice.pdf");
             }
+        }
+
+        private string CustomSumm(int sum)
+        {
+            int r = 0;
+            string customSum = string.Empty;
+
+            while (sum != 0)
+            {
+                r = sum % 1000;
+
+                if (r == 0) customSum = customSum.Insert(0, "000");
+                else customSum = customSum.Insert(0, r.ToString() + " ");
+
+                sum /= 1000;
+            }
+
+            return customSum;
         }
      }
 }
