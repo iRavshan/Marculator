@@ -1,14 +1,18 @@
-var x = 1;
-$(document).ready(function () {
-    $('.add').on('click', function (event) {
-        var html = '<div class="oneLine mb-3"><select class="form-select forName" asp-for="Things[' + x + '].Name" asp-items="@(new SelectList(Model.Things, nameof(Thing.Name), nameof(Thing.Name)))"> </select > <input type="number" class="form-control forCount" required asp-for="Things[' + x +'].Count"></div>';
-        $("#parent-div").append(html);
-    });
-    x++;
-}); 
+$('vaxaxa').change(function (){
+        var k = 0;
+
+        var input = document.getElementsByClassName('vaxaxa');
+
+        for (var i = 0; i < input.length; i++) {
+            var a = input[i];
+            k = k + parseInt(a.value);
+        }
+
+        document.getElementById("total").innerHTML = k;
+});
 
 function removeItem(){
     let menu = document.getElementById('parent-div');
     menu.removeChild(menu.lastElementChild);
     x--;
-}   
+}

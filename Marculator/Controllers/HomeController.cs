@@ -295,7 +295,7 @@ namespace Marculator.Controllers
                 table.SpacingAfter = 15;
                 doc.Add(table);
 
-                Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
+                Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.AddHours(2).ToString("dd.MM.yyyy HH:mm"));
                 dateTime.Alignment = Element.ALIGN_RIGHT;
                 dateTime.IndentationRight = 53f;
                 dateTime.SpacingAfter = 5;
