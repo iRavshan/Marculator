@@ -162,16 +162,18 @@ namespace Marculator.Controllers
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                Document doc = new Document(PageSize.A4, 60, 25, 30, 30);
+                Document doc = new Document(PageSize.A4, 25, 25, 30, 30);
                 PdfWriter writer = PdfWriter.GetInstance(doc, ms);
                 PdfPTable table = new PdfPTable(5);
                 doc.Open();
 
-                var logo = Image.GetInstance("wwwroot/img/Moz-Logo.png");
+                
+
+                var logo = Image.GetInstance("wwwroot/img/little.png");
                 logo.Alignment = Element.ALIGN_CENTER;
                 doc.Add(logo);
 
-                PdfPCell trCell = new PdfPCell(new Phrase("#", new Font(Font.FontFamily.HELVETICA, 10)));
+                PdfPCell trCell = new PdfPCell(new Phrase("#", new Font(Font.FontFamily.HELVETICA, 14)));
                 trCell.MinimumHeight = 20;
                 trCell.BorderWidthLeft = 0f;
                 trCell.BorderWidthRight = 0;
@@ -181,7 +183,7 @@ namespace Marculator.Controllers
                 trCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(trCell);
 
-                PdfPCell nameCell = new PdfPCell(new Phrase("NOMI", new Font(Font.FontFamily.HELVETICA, 10)));
+                PdfPCell nameCell = new PdfPCell(new Phrase("NOMI", new Font(Font.FontFamily.HELVETICA, 14)));
                 nameCell.MinimumHeight = 20;
                 nameCell.BorderWidthLeft = 0;
                 nameCell.BorderWidthRight = 0;
@@ -191,17 +193,19 @@ namespace Marculator.Controllers
                 nameCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(nameCell);
 
-                PdfPCell priceCell = new PdfPCell(new Phrase("NARXI", new Font(Font.FontFamily.HELVETICA, 10)));
+                PdfPCell priceCell = new PdfPCell(new Phrase("NARXI", new Font(Font.FontFamily.HELVETICA, 14)));
+                priceCell.PaddingLeft = 7;
                 priceCell.MinimumHeight = 20;
                 priceCell.BorderWidthLeft = 0f;
                 priceCell.BorderWidthRight = 0;
                 priceCell.BorderWidthTop = 0;
                 priceCell.BorderWidthBottom = 1f;
-                priceCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                priceCell.HorizontalAlignment = Element.ALIGN_LEFT;
                 priceCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(priceCell);
 
-                PdfPCell countCell = new PdfPCell(new Phrase("SONI", new Font(Font.FontFamily.HELVETICA, 10)));
+                PdfPCell countCell = new PdfPCell(new Phrase("SONI", new Font(Font.FontFamily.HELVETICA, 14)));
+                countCell.PaddingLeft = 7;
                 countCell.MinimumHeight = 20;
                 countCell.BorderWidthLeft = 0f;
                 countCell.BorderWidthRight = 0;
@@ -211,7 +215,7 @@ namespace Marculator.Controllers
                 countCell.VerticalAlignment = Element.ALIGN_CENTER;
                 table.AddCell(countCell);
 
-                PdfPCell umumCell = new PdfPCell(new Phrase("QIYMATI", new Font(Font.FontFamily.HELVETICA, 10)));
+                PdfPCell umumCell = new PdfPCell(new Phrase("QIYMATI", new Font(Font.FontFamily.HELVETICA, 14)));
                 umumCell.MinimumHeight = 25;
                 umumCell.BorderWidthLeft = 0f;
                 umumCell.BorderWidthRight = 0;
@@ -230,51 +234,52 @@ namespace Marculator.Controllers
                     {
                         Product product = await productRepo.GetByName(model.Thing[i].Name);
 
-                        PdfPCell _trCell = new PdfPCell(new Phrase(count.ToString()));
+                        PdfPCell _trCell = new PdfPCell(new Phrase(count.ToString(), new Font(Font.FontFamily.COURIER, 13)));
                         _trCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         _trCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _trCell.BorderWidthLeft = 0;
                         _trCell.BorderWidthRight = 0;
                         _trCell.BorderWidthTop = 0;
-                        _trCell.BorderWidthBottom = 1f;
-                        _trCell.MinimumHeight = 18;
+                        _trCell.BorderWidthBottom = 0.5f;
+                        _trCell.MinimumHeight = 21;
 
-                        PdfPCell _nameCell = new PdfPCell(new Phrase(product.Name));
+                        PdfPCell _nameCell = new PdfPCell(new Phrase(product.Name, new Font(Font.FontFamily.COURIER, 13)));
                         _nameCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _nameCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _nameCell.BorderWidthLeft = 0;
                         _nameCell.BorderWidthRight = 0;
                         _nameCell.BorderWidthTop = 0;
-                        _nameCell.BorderWidthBottom = 1f;
-                        _nameCell.MinimumHeight = 18;
+                        _nameCell.BorderWidthBottom = 0.5f;
+                        _nameCell.MinimumHeight = 21;
 
-                        PdfPCell _priceCell = new PdfPCell(new Phrase(CustomSumm(product.Price)));
+                        PdfPCell _priceCell = new PdfPCell(new Phrase(CustomSumm(product.Price), new Font(Font.FontFamily.COURIER, 13)));
                         _priceCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _priceCell.VerticalAlignment = Element.ALIGN_CENTER;
-                        _priceCell.PaddingLeft = 10;
+                        _priceCell.PaddingLeft = 7;
                         _priceCell.BorderWidthLeft = 0;
                         _priceCell.BorderWidthRight = 0;
                         _priceCell.BorderWidthTop = 0;
-                        _priceCell.BorderWidthBottom = 1f;
-                        _priceCell.MinimumHeight = 18;
+                        _priceCell.BorderWidthBottom = 0.5f;
+                        _priceCell.MinimumHeight = 21;
 
-                        PdfPCell _countCell = new PdfPCell(new Phrase(model.Thing[i].Count.ToString()));
-                        _countCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        PdfPCell _countCell = new PdfPCell(new Phrase(model.Thing[i].Count.ToString(), new Font(Font.FontFamily.COURIER, 13)));
+                        _countCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _countCell.VerticalAlignment = Element.ALIGN_CENTER;
+                        _countCell.PaddingLeft = 7;
                         _countCell.BorderWidthLeft = 0;
                         _countCell.BorderWidthRight = 0;
                         _countCell.BorderWidthTop = 0;
-                        _countCell.BorderWidthBottom = 1f;
-                        _countCell.MinimumHeight = 18;
+                        _countCell.BorderWidthBottom = 0.5f;
+                        _countCell.MinimumHeight = 21;
 
-                        PdfPCell _umumCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Count * product.Price)));
+                        PdfPCell _umumCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Count * product.Price), new Font(Font.FontFamily.COURIER, 13)));
                         _umumCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _umumCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _umumCell.BorderWidthLeft = 0;
                         _umumCell.BorderWidthRight = 0;
                         _umumCell.BorderWidthTop = 0;
-                        _umumCell.BorderWidthBottom = 1f;
-                        _umumCell.MinimumHeight = 18;
+                        _umumCell.BorderWidthBottom = 0.5f;
+                        _umumCell.MinimumHeight = 21;
 
                         table.AddCell(_trCell);
                         table.AddCell(_nameCell);
@@ -287,13 +292,25 @@ namespace Marculator.Controllers
                     }
                 }
 
+                table.SpacingAfter = 15;
                 doc.Add(table);
 
                 Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
+                dateTime.Alignment = Element.ALIGN_RIGHT;
+                dateTime.IndentationRight = 53f;
+                dateTime.SpacingAfter = 5;
                 doc.Add(dateTime);
 
                 Paragraph p = new Paragraph("Jami summa: " + CustomSumm(sum) + " UZS");
+                p.Alignment = Element.ALIGN_RIGHT;
+                p.IndentationRight = 53f;
+                p.SpacingAfter = 15;
                 doc.Add(p);
+
+                Paragraph thank = new Paragraph("XARIDINGIZ UCHUN RAHMAT !");
+                thank.Alignment = Element.ALIGN_RIGHT;
+                thank.IndentationRight = 53f;
+                doc.Add(thank);
 
                 doc.Close();
                 writer.Close();
@@ -312,7 +329,7 @@ namespace Marculator.Controllers
             {
                 r = sum % 1000;
 
-                if (r == 0) customSum = customSum.Insert(0, "000");
+                if (r == 0) customSum = customSum.Insert(0, "000 ");
                 else customSum = customSum.Insert(0, r.ToString() + " ");
 
                 sum /= 1000;
