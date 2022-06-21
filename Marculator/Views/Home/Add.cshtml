@@ -3,20 +3,18 @@
     ViewData["Title"] = "Chek yaratish";
 }
 
-<form asp-controller="home" asp-action="search" method="post">
-    <input class="form-control w-100 mb-2" type="search" placeholder="Mahsulot nomini kiriting"/>
-    <button type="submit" class="btn btn-primary mt-2 mb-4 w-100">Qidirish</button>
-</form>
+<input class="form-control w-100 mb-4" id="myInput" type="search" placeholder="Mahsulot nomini kiriting" onkeyup="sortProducts()"/>
 
-<form asp-controller="home" asp-action="add" method="post">
+<form asp-controller="home" asp-action="add" method="post" id="myForm">
     @for (int i = 0; i < Model.Thing.Count; i++)
     {
-        <div class="oneLine mb-2">
+        <div class="oneLine mb-2" id="oneLine">
             <input asp-for="Thing[i].Name" class="form-control forName" readonly="readonly">
-            <input asp-for="Thing[i].Count" class="form-control forCount vaxaxa" required/>
+            <input asp-for="Thing[i].Price" class="forPrice" hidden/>
+            <input asp-for="Thing[i].Count" class="form-control forCount" required onkeyup="addInputValues()"/>
         </div>
     }
-    <p id="total" class="mt-3 mb-3 text-center"></p>
+    <p id="total" class="mt-4 mb-3 text-center"></p>
     <button type="submit" class="btn btn-success mt-2 mb-3 w-100"><i class="fas fa-receipt"></i> Chiqarish</button>
 </form>
 

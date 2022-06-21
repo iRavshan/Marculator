@@ -151,14 +151,14 @@ namespace Marculator.Controllers
 
             foreach(Product item in allProducts)
             {
-                model.Thing.Add(new Thing { Name = item.Name, Count = 0 });
+                model.Thing.Add(new Thing { Name = item.Name, Count = 0, Price = item.Price });
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<FileResult> Add(AddViewModel model)
+        public FileResult Add(AddViewModel model)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -166,8 +166,6 @@ namespace Marculator.Controllers
                 PdfWriter writer = PdfWriter.GetInstance(doc, ms);
                 PdfPTable table = new PdfPTable(5);
                 doc.Open();
-
-                
 
                 var logo = Image.GetInstance("wwwroot/img/little.png");
                 logo.Alignment = Element.ALIGN_CENTER;
@@ -232,7 +230,7 @@ namespace Marculator.Controllers
                 {
                     if(model.Thing[i].Count != 0)
                     {
-                        Product product = await productRepo.GetByName(model.Thing[i].Name);
+                        //Product product = await productRepo.GetByName(model.Thing[i].Name);
 
                         PdfPCell _trCell = new PdfPCell(new Phrase(count.ToString(), new Font(Font.FontFamily.COURIER, 13)));
                         _trCell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -243,7 +241,7 @@ namespace Marculator.Controllers
                         _trCell.BorderWidthBottom = 0.5f;
                         _trCell.MinimumHeight = 21;
 
-                        PdfPCell _nameCell = new PdfPCell(new Phrase(product.Name, new Font(Font.FontFamily.COURIER, 13)));
+                        PdfPCell _nameCell = new PdfPCell(new Phrase(model.Thing[i].Name, new Font(Font.FontFamily.COURIER, 13)));
                         _nameCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _nameCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _nameCell.BorderWidthLeft = 0;
@@ -252,7 +250,7 @@ namespace Marculator.Controllers
                         _nameCell.BorderWidthBottom = 0.5f;
                         _nameCell.MinimumHeight = 21;
 
-                        PdfPCell _priceCell = new PdfPCell(new Phrase(CustomSumm(product.Price), new Font(Font.FontFamily.COURIER, 13)));
+                        PdfPCell _priceCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Price), new Font(Font.FontFamily.COURIER, 13)));
                         _priceCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _priceCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _priceCell.PaddingLeft = 7;
@@ -272,7 +270,7 @@ namespace Marculator.Controllers
                         _countCell.BorderWidthBottom = 0.5f;
                         _countCell.MinimumHeight = 21;
 
-                        PdfPCell _umumCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Count * product.Price), new Font(Font.FontFamily.COURIER, 13)));
+                        PdfPCell _umumCell = new PdfPCell(new Phrase(CustomSumm(model.Thing[i].Count * model.Thing[i].Price), new Font(Font.FontFamily.COURIER, 13)));
                         _umumCell.HorizontalAlignment = Element.ALIGN_LEFT;
                         _umumCell.VerticalAlignment = Element.ALIGN_CENTER;
                         _umumCell.BorderWidthLeft = 0;
@@ -287,7 +285,7 @@ namespace Marculator.Controllers
                         table.AddCell(_countCell);
                         table.AddCell(_umumCell);
 
-                        sum += model.Thing[i].Count * product.Price;
+                        sum += model.Thing[i].Count * model.Thing[i].Price;
                         count++;
                     }
                 }
@@ -295,7 +293,7 @@ namespace Marculator.Controllers
                 table.SpacingAfter = 15;
                 doc.Add(table);
 
-                Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.AddHours(2).ToString("dd.MM.yyyy HH:mm"));
+                Paragraph dateTime = new Paragraph("Sana va vaqt: " + DateTime.Now.AddHours(5).ToString("dd.MM.yyyy HH:mm"));
                 dateTime.Alignment = Element.ALIGN_RIGHT;
                 dateTime.IndentationRight = 53f;
                 dateTime.SpacingAfter = 5;
