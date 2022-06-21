@@ -321,6 +321,7 @@ namespace Marculator.Controllers
         private string CustomSumm(int sum)
         {
             int r = 0;
+
             string customSum = string.Empty;
 
             while (sum != 0)
