@@ -18,8 +18,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\file\" />
-  </ItemGroup>
-
 </Project>

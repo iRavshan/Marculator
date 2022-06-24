@@ -5,10 +5,6 @@ function addInputValues() {
     for (var i = 0; i < input.length; i++) {
         var a = price[i].value * input[i].value;
         k = k + parseInt(a);
-        if (b != 0) {
-            var b = price[i].value + " x " + input[i].value + " = " + a;
-            document.getElementById("items").innerHTML += b + "<br/>";
-        }
     }
 
     document.getElementById("total").innerHTML = `Jami summa: <br/> <span style="font-size: 22px;">${k}</span> so'm`;
